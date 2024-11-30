@@ -1,0 +1,46 @@
+def process_notes(notes):
+    total = 0
+    moins = 0
+    valid_notes = 0
+    for element in notes:
+        if element == -1:
+            moins += 1
+        else:
+            total += element
+            valid_notes += 1
+    
+    if valid_notes == 0:
+        return 0
+    
+    return (total / valid_notes) - moins
+
+def compare_zero_vs_minus_one(notes):
+    total = sum([note for note in notes if note != -1])
+    valid_notes = len([note for note in notes if note != -1])
+    moins = notes.count(-1)
+    
+    if valid_notes == 0:
+        return "Pas de notes valides pour comparer"
+    
+    moyenne = (total / valid_notes) - moins
+    moyenne_avec_zero = total / (valid_notes + 1)
+    moyenne_avec_moins_un = ((total / valid_notes) - (moins + 1))
+    
+    message = f"Moyenne actuelle: {moyenne:.2f}\n"
+    message += f"Moyenne avec un zéro: {moyenne_avec_zero:.2f}\n"
+    message += f"Moyenne avec un -1: {moyenne_avec_moins_un:.2f}\n"
+    
+    if abs(moyenne_avec_zero - moyenne_avec_moins_un) < 1e-10:
+        message += "L'effet d'un 0 ou d'un -1 sur la moyenne est identique."
+    elif moyenne_avec_zero > moyenne_avec_moins_un:
+        message += "Il vaut mieux avoir un 0 qu'un -1 sur la moyenne."
+    else:
+        message += "Il vaut mieux avoir un -1 qu'un 0 sur la moyenne."
+    
+    return message
+
+# Test
+notes = eval(input('liste des notes>>> ')) #ex: [10, 2, 3, -1]
+print(f"Moyenne calculée: {process_notes(notes)}")
+print(compare_zero_vs_minus_one(notes))
+input()
